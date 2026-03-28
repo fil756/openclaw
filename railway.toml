@@ -11,6 +11,7 @@ restartPolicyMaxRetries = 10
 [deploy.variables]
 NODE_ENV = "production"
 OPENCLAW_STATE_DIR = "/data"
+OPENCLAW_WORKSPACE_DIR = "/data/.openclaw/workspace"
 OPENCLAW_CONFIG_PATH = "/data/openclaw.json"
 OPENCLAW_NO_RESPAWN = "1"
 

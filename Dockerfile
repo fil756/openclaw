@@ -2,7 +2,7 @@
 # Installs OpenClaw from npm instead of building from source.
 # Update OPENCLAW_VERSION to upgrade.
 
-ARG OPENCLAW_VERSION=2026.3.23
+ARG OPENCLAW_VERSION=2026.3.24
 ARG NODE_IMAGE=node:24-bookworm-slim
 
 FROM ${NODE_IMAGE}

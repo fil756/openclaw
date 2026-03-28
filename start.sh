@@ -6,10 +6,23 @@ echo "Starting OpenClaw Gateway..."
 # Fix data directory permissions (Railway mounts volumes as root)
 if [ -d /data ]; then
   chown -R node:node /data
-  chmod -R 755 /data
+  chmod 700 /data
+  
+  # Secure credentials directory
+  if [ -d /data/credentials ]; then
+    chmod 700 /data/credentials
+    # Secure individual credential files
+    find /data/credentials -type f -name '*.json' -exec chmod 600 {} \;
+  fi
+  
+  # Secure config file
+  if [ -f /data/openclaw.json ]; then
+    chmod 600 /data/openclaw.json
+  fi
 fi
 
 mkdir -p /data
+mkdir -p /data/credentials
 
 # Migrate legacy state if present
 legacy_state_dir="${HOME:-/home/node}/.openclaw"

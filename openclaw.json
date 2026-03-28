@@ -9,5 +9,12 @@
       "allowInsecureAuth": true,
       "dangerouslyDisableDeviceAuth": true
     }
+  },
+  "agents": {
+    "defaults": {
+      "sandbox": {
+        "mode": "off"
+      }
+    }
   }
 }

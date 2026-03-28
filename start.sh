@@ -18,11 +18,42 @@ if [ -d "$legacy_state_dir" ] && [ "$legacy_state_dir" != "/data" ]; then
   chown -R node:node /data
 fi
 
-# Only seed config on first boot — never overwrite runtime config in /data
-if [ ! -f /data/openclaw.json ] && [ -f /app/openclaw.json ]; then
-  cp /app/openclaw.json /data/openclaw.json
-  chown node:node /data/openclaw.json
-fi
+# Merge required infrastructure config into /data/openclaw.json on every boot.
+# This preserves runtime additions (Telegram, tools, etc.) while ensuring our
+# deployment flags (trustedProxies, origin fallback, sandbox off) always survive.
+node -e '
+const fs = require("fs");
+const required = {
+  gateway: {
+    mode: "local",
+    port: 8080,
+    bind: "lan",
+    trustedProxies: ["100.64.0.0/10","10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"],
+    controlUi: {
+      dangerouslyAllowHostHeaderOriginFallback: true,
+      allowInsecureAuth: true,
+      dangerouslyDisableDeviceAuth: true
+    }
+  },
+  agents: { defaults: { sandbox: { mode: "off" } } }
+};
+function merge(target, source) {
+  for (const key of Object.keys(source)) {
+    if (source[key] && typeof source[key] === "object" && !Array.isArray(source[key])) {
+      if (!target[key] || typeof target[key] !== "object") target[key] = {};
+      merge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+let config = {};
+try { config = JSON.parse(fs.readFileSync("/data/openclaw.json", "utf8")); } catch {}
+merge(config, required);
+fs.writeFileSync("/data/openclaw.json", JSON.stringify(config, null, 2) + "\n");
+'
+chown node:node /data/openclaw.json
 
 export OPENCLAW_STATE_DIR=/data
 export OPENCLAW_WORKSPACE_DIR=/data/.openclaw/workspace

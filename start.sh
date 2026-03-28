@@ -18,8 +18,8 @@ if [ -d "$legacy_state_dir" ] && [ "$legacy_state_dir" != "/data" ]; then
   chown -R node:node /data
 fi
 
-# Always copy latest config to /data so changes propagate on redeploy
-if [ -f /app/openclaw.json ]; then
+# Only seed config on first boot — never overwrite runtime config in /data
+if [ ! -f /data/openclaw.json ] && [ -f /app/openclaw.json ]; then
   cp /app/openclaw.json /data/openclaw.json
   chown node:node /data/openclaw.json
 fi

@@ -43,6 +43,13 @@ const required = {
         "anthropic/claude-haiku-4-5": { alias: "Haiku" },
         "anthropic/claude-sonnet-4-6": { alias: "Sonnet" },
         "anthropic/claude-opus-4-6": { alias: "Opus" }
+      },
+      heartbeat: {
+        every: "60m",
+        model: "openrouter/google/gemini-2.5-flash-lite",
+        target: "last",
+        lightContext: true,
+        isolatedSession: true
       }
     }
   },
@@ -67,6 +74,9 @@ merge(config, required);
 // Clean up invalid keys written by previous deploys
 if (config.agents && config.agents.defaults) {
   delete config.agents.defaults.modelFallbacks;
+  if (config.agents.defaults.heartbeat) {
+    delete config.agents.defaults.heartbeat.intervalMinutes;
+  }
 }
 // Replace broken model IDs throughout the entire config
 let out = JSON.stringify(config, null, 2);

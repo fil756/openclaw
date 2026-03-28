@@ -29,6 +29,9 @@ const required = {
     port: 8080,
     bind: "lan",
     trustedProxies: ["100.64.0.0/10","10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"],
+    auth: {
+      token: process.env.OPENCLAW_GATEWAY_TOKEN
+    },
     controlUi: {
       dangerouslyAllowHostHeaderOriginFallback: true,
       allowInsecureAuth: true,

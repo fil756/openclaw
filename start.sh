@@ -62,7 +62,7 @@ if (config.agents && config.agents.defaults) {
 }
 // Replace broken model IDs throughout the entire config
 let out = JSON.stringify(config, null, 2);
-out = out.replace(/meta-llama\/llama-3\.3-70b:free/g, "anthropic/claude-haiku-4-5");
+out = out.replace(/meta-llama\/llama-3\.3-70b:free/g, "meta-llama/llama-3.3-70b-instruct:free");
 out = out.replace(/claude-3-5-haiku-20241022/g, "claude-haiku-4-5");
 fs.writeFileSync("/data/openclaw.json", out + "\n");
 '

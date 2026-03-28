@@ -1,0 +1,23 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/healthz"
+healthcheckTimeout = 100
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+[deploy.variables]
+NODE_ENV = "production"
+OPENCLAW_STATE_DIR = "/data"
+OPENCLAW_CONFIG_PATH = "/data/openclaw.json"
+OPENCLAW_NO_RESPAWN = "1"
+
+[[mounts]]
+source = "/data"
+target = "/data"
+
+[[ports]]
+port = 8080
+type = "http"

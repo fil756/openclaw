@@ -133,6 +133,14 @@ rm -rf /home/node/.openclaw/workspace
 mkdir -p /home/node/.openclaw
 ln -sf /data/.openclaw/workspace /home/node/.openclaw/workspace
 
+# CLI auth persistence (Railway + GitHub)
+mkdir -p /home/node/.config
+[ -d /data/.railway ] && ln -sfn /data/.railway /home/node/.railway
+[ -d /data/.config/gh ] && ln -sfn /data/.config/gh /home/node/.config/gh
+
+# gh CLI binary on PATH
+[ -d /data/bin ] && export PATH="/data/bin:$PATH"
+
 exec gosu node openclaw gateway run \
   --port 8080 \
   --bind lan \

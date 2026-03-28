@@ -41,7 +41,7 @@ const required = {
       model: {
         primary: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-haiku-4-5",
         fallbacks: [
-          "openrouter/meta-llama/llama-3.3-70b-instruct:free"
+          "openrouter/mistralai/mistral-small-3.1-24b-instruct:free"
         ]
       }
     }
@@ -67,16 +67,20 @@ if (config.agents && config.agents.defaults) {
 }
 // Replace broken model IDs throughout the entire config
 let out = JSON.stringify(config, null, 2);
-out = out.replace(/meta-llama\/llama-3\.3-70b:free/g, "meta-llama/llama-3.3-70b-instruct:free");
+out = out.replace(/openrouter\/meta-llama\/llama-3\.3-70b-instruct:free/g, "openrouter/mistralai/mistral-small-3.1-24b-instruct:free");
+out = out.replace(/meta-llama\/llama-3\.3-70b-instruct:free/g, "mistralai/mistral-small-3.1-24b-instruct:free");
+out = out.replace(/meta-llama\/llama-3\.3-70b:free/g, "mistralai/mistral-small-3.1-24b-instruct:free");
 out = out.replace(/claude-3-5-haiku-20241022/g, "claude-haiku-4-5");
 fs.writeFileSync("/data/openclaw.json", out + "\n");
 '
 chown node:node /data/openclaw.json
 
 # Fix broken model IDs in ALL state/session files (not just openclaw.json)
-find /data -name '*.json' -type f -exec grep -l -E 'llama-3\.3-70b:free|gpt-4o-mini|claude-3-5-haiku-20241022' {} \; 2>/dev/null | while read f; do
+find /data -name '*.json' -type f -exec grep -l -E 'llama-3\.3-70b(:free|-instruct:free)|openrouter/meta-llama/llama-3\.3-70b-instruct:free|gpt-4o-mini|claude-3-5-haiku-20241022' {} \; 2>/dev/null | while read f; do
   sed -i \
-    -e 's|meta-llama/llama-3\.3-70b:free|meta-llama/llama-3.3-70b-instruct:free|g' \
+    -e 's|openrouter/meta-llama/llama-3\.3-70b-instruct:free|openrouter/mistralai/mistral-small-3.1-24b-instruct:free|g' \
+    -e 's|meta-llama/llama-3\.3-70b-instruct:free|mistralai/mistral-small-3.1-24b-instruct:free|g' \
+    -e 's|meta-llama/llama-3\.3-70b:free|mistralai/mistral-small-3.1-24b-instruct:free|g' \
     -e 's|openai/gpt-4o-mini|anthropic/claude-haiku-4-5|g' \
     -e 's|gpt-4o-mini|claude-haiku-4-5|g' \
     -e 's|claude-3-5-haiku-20241022|claude-haiku-4-5|g' \

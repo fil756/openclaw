@@ -73,6 +73,16 @@ fs.writeFileSync("/data/openclaw.json", out + "\n");
 '
 chown node:node /data/openclaw.json
 
+# Fix broken model IDs in ALL state/session files (not just openclaw.json)
+find /data -name '*.json' -type f -exec grep -l -E 'llama-3\.3-70b:free|gpt-4o-mini|claude-3-5-haiku-20241022' {} \; 2>/dev/null | while read f; do
+  sed -i \
+    -e 's|meta-llama/llama-3\.3-70b:free|meta-llama/llama-3.3-70b-instruct:free|g' \
+    -e 's|openai/gpt-4o-mini|anthropic/claude-haiku-4-5|g' \
+    -e 's|gpt-4o-mini|claude-haiku-4-5|g' \
+    -e 's|claude-3-5-haiku-20241022|claude-haiku-4-5|g' \
+    "$f"
+done
+
 export OPENCLAW_STATE_DIR=/data
 export OPENCLAW_WORKSPACE_DIR=/data/.openclaw/workspace
 export OPENCLAW_CONFIG_PATH=/data/openclaw.json

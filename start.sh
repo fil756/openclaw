@@ -38,7 +38,12 @@ const required = {
   agents: {
     defaults: {
       sandbox: { mode: "off" },
-      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-haiku-4-5"
+      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-haiku-4-5",
+      models: {
+        "anthropic/claude-haiku-4-5": { alias: "Haiku" },
+        "anthropic/claude-sonnet-4-6": { alias: "Sonnet" },
+        "anthropic/claude-opus-4-6": { alias: "Opus" }
+      }
     }
   }
 };

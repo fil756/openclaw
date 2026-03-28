@@ -81,6 +81,9 @@ if (config.agents && config.agents.defaults) {
     delete config.agents.defaults.heartbeat.intervalMinutes;
   }
 }
+if (config.channels && config.channels.telegram) {
+  delete config.channels.telegram.dmAllowlist;
+}
 // Replace broken model IDs throughout the entire config
 let out = JSON.stringify(config, null, 2);
 out = out.replace(/openrouter\/meta-llama\/llama-3\.3-70b-instruct:free/g, "openrouter/mistralai/mistral-small-3.1-24b-instruct:free");

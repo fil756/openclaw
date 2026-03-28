@@ -60,7 +60,11 @@ merge(config, required);
 if (config.agents && config.agents.defaults) {
   delete config.agents.defaults.modelFallbacks;
 }
-fs.writeFileSync("/data/openclaw.json", JSON.stringify(config, null, 2) + "\n");
+// Replace broken model IDs throughout the entire config
+let out = JSON.stringify(config, null, 2);
+out = out.replace(/meta-llama\/llama-3\.3-70b:free/g, "anthropic/claude-haiku-4-5");
+out = out.replace(/claude-3-5-haiku-20241022/g, "claude-haiku-4-5");
+fs.writeFileSync("/data/openclaw.json", out + "\n");
 '
 chown node:node /data/openclaw.json
 

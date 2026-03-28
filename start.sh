@@ -38,7 +38,7 @@ const required = {
   agents: {
     defaults: {
       sandbox: { mode: "off" },
-      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-3-5-haiku-20241022"
+      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-haiku-4-5"
     }
   }
 };
@@ -68,7 +68,7 @@ export OPENCLAW_STATE_DIR=/data
 export OPENCLAW_WORKSPACE_DIR=/data/.openclaw/workspace
 export OPENCLAW_CONFIG_PATH=/data/openclaw.json
 export OPENCLAW_NO_RESPAWN=1
-export OPENCLAW_AGENT_MODEL="${OPENCLAW_AGENT_MODEL:-anthropic/claude-3-5-haiku-20241022}"
+export OPENCLAW_AGENT_MODEL="${OPENCLAW_AGENT_MODEL:-anthropic/claude-haiku-4-5}"
 
 # Symlink workspace so agent sessions use persistent volume
 mkdir -p /data/.openclaw/workspace

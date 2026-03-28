@@ -14,7 +14,7 @@ OPENCLAW_STATE_DIR = "/data"
 OPENCLAW_WORKSPACE_DIR = "/data/.openclaw/workspace"
 OPENCLAW_CONFIG_PATH = "/data/openclaw.json"
 OPENCLAW_NO_RESPAWN = "1"
-OPENCLAW_AGENT_MODEL = "anthropic/claude-3-5-haiku-20241022"
+OPENCLAW_AGENT_MODEL = "anthropic/claude-haiku-4-5"
 
 [[mounts]]
 source = "/data"

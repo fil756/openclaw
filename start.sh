@@ -56,6 +56,10 @@ function merge(target, source) {
 let config = {};
 try { config = JSON.parse(fs.readFileSync("/data/openclaw.json", "utf8")); } catch {}
 merge(config, required);
+// Clean up invalid keys written by previous deploys
+if (config.agents && config.agents.defaults) {
+  delete config.agents.defaults.modelFallbacks;
+}
 fs.writeFileSync("/data/openclaw.json", JSON.stringify(config, null, 2) + "\n");
 '
 chown node:node /data/openclaw.json

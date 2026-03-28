@@ -38,7 +38,12 @@ const required = {
   agents: {
     defaults: {
       sandbox: { mode: "off" },
-      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-haiku-4-5"
+      model: {
+        primary: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-haiku-4-5",
+        fallbacks: [
+          "openrouter/meta-llama/llama-3.3-70b-instruct:free"
+        ]
+      }
     }
   }
 };

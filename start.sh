@@ -38,12 +38,7 @@ const required = {
   agents: {
     defaults: {
       sandbox: { mode: "off" },
-      model: {
-        primary: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-haiku-4-5",
-        fallbacks: [
-          "openrouter/mistralai/mistral-small-3.1-24b-instruct:free"
-        ]
-      }
+      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-haiku-4-5"
     }
   }
 };
@@ -76,11 +71,13 @@ fs.writeFileSync("/data/openclaw.json", out + "\n");
 chown node:node /data/openclaw.json
 
 # Fix broken model IDs in ALL state/session files (not just openclaw.json)
-find /data -name '*.json' -type f -exec grep -l -E 'llama-3\.3-70b(:free|-instruct:free)|openrouter/meta-llama/llama-3\.3-70b-instruct:free|gpt-4o-mini|claude-3-5-haiku-20241022' {} \; 2>/dev/null | while read f; do
+find /data -name '*.json' -type f -exec grep -l -E 'openrouter/.*:free|llama-3\.3-70b|mistral.*:free|gpt-4o-mini|claude-3-5-haiku-20241022' {} \; 2>/dev/null | while read f; do
   sed -i \
-    -e 's|openrouter/meta-llama/llama-3\.3-70b-instruct:free|openrouter/mistralai/mistral-small-3.1-24b-instruct:free|g' \
-    -e 's|meta-llama/llama-3\.3-70b-instruct:free|mistralai/mistral-small-3.1-24b-instruct:free|g' \
-    -e 's|meta-llama/llama-3\.3-70b:free|mistralai/mistral-small-3.1-24b-instruct:free|g' \
+    -e 's|openrouter/meta-llama/llama-3\.3-70b-instruct:free|anthropic/claude-haiku-4-5|g' \
+    -e 's|openrouter/mistralai/mistral-small-3\.1-24b-instruct:free|anthropic/claude-haiku-4-5|g' \
+    -e 's|meta-llama/llama-3\.3-70b-instruct:free|claude-haiku-4-5|g' \
+    -e 's|mistralai/mistral-small-3\.1-24b-instruct:free|claude-haiku-4-5|g' \
+    -e 's|meta-llama/llama-3\.3-70b:free|claude-haiku-4-5|g' \
     -e 's|openai/gpt-4o-mini|anthropic/claude-haiku-4-5|g' \
     -e 's|gpt-4o-mini|claude-haiku-4-5|g' \
     -e 's|claude-3-5-haiku-20241022|claude-haiku-4-5|g' \

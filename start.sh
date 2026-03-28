@@ -29,6 +29,12 @@ export OPENCLAW_WORKSPACE_DIR=/data/.openclaw/workspace
 export OPENCLAW_CONFIG_PATH=/data/openclaw.json
 export OPENCLAW_NO_RESPAWN=1
 
+# Symlink workspace so agent sessions use persistent volume
+mkdir -p /data/.openclaw/workspace
+rm -rf /home/node/.openclaw/workspace
+mkdir -p /home/node/.openclaw
+ln -sf /data/.openclaw/workspace /home/node/.openclaw/workspace
+
 exec gosu node openclaw gateway run \
   --port 8080 \
   --bind lan \

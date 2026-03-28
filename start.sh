@@ -35,7 +35,12 @@ const required = {
       dangerouslyDisableDeviceAuth: true
     }
   },
-  agents: { defaults: { sandbox: { mode: "off" } } }
+  agents: {
+    defaults: {
+      sandbox: { mode: "off" },
+      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-3-5-haiku-20241022"
+    }
+  }
 };
 function merge(target, source) {
   for (const key of Object.keys(source)) {

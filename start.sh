@@ -28,6 +28,7 @@ export OPENCLAW_STATE_DIR=/data
 export OPENCLAW_WORKSPACE_DIR=/data/.openclaw/workspace
 export OPENCLAW_CONFIG_PATH=/data/openclaw.json
 export OPENCLAW_NO_RESPAWN=1
+export OPENCLAW_AGENT_MODEL="${OPENCLAW_AGENT_MODEL:-anthropic/claude-3-5-haiku-20241022}"
 
 # Symlink workspace so agent sessions use persistent volume
 mkdir -p /data/.openclaw/workspace

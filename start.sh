@@ -45,6 +45,9 @@ const required = {
         "anthropic/claude-opus-4-6": { alias: "Opus" }
       }
     }
+  },
+  tools: {
+    profile: "coding"
   }
 };
 function merge(target, source) {

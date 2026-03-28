@@ -38,12 +38,7 @@ const required = {
   agents: {
     defaults: {
       sandbox: { mode: "off" },
-      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-3-5-haiku-20241022",
-      modelFallbacks: [
-        "anthropic/claude-3-5-sonnet-20241022",
-        "openai/gpt-4o-mini",
-        "openrouter/deepseek/deepseek-chat"
-      ]
+      model: process.env.OPENCLAW_AGENT_MODEL || "anthropic/claude-3-5-haiku-20241022"
     }
   }
 };
